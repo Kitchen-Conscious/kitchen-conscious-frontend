@@ -26,9 +26,9 @@ export default function Login() {
                 placeholder = "Password"
                 ></input>
                 <h4 className = "font-bold" >Forgot Password?</h4>
-                
-                <button onClick={() => {updateUserName("john")}}>Log In</button>
-                
+                <br></br>
+                <button className="mx-10 cursor-pointer bg-green-600 text-white  px-4 py-2 hover:bg-green-700 rounded-full  text-lg font-medium lg:text-xl lg:px-20 " onClick={() => {updateUserName("john")}}>Log In</button>
+                <br></br>
                 <div>
                 New to KitchenConscious?&nbsp; 
                 <a className = "text-decoration-line: underline text-green-600 font-bold" href="../signup">

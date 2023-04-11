@@ -10,7 +10,8 @@ export default function Main() {
     return (
         <div>
             <NavBar />
-            Main Page
+            <label className="flex justify-center py-12 text-4xl font-bold text-gray-600">Your Kitchens</label>
         </div>
-    )}
+    )
+}
 

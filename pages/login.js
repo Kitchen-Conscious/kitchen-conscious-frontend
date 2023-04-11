@@ -13,8 +13,30 @@ export default function Login() {
     return (
         <div>
             <NavBar />
-            Log In
-            <button onClick={() => {updateUserName("john")}}>login to john</button>
+            <div className = "container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
+                <h1 className = "font-bold mb-8 text-3xl text-center">Log in</h1>
+                <input
+                className = "block border border-grey-light w-full p-3 rounded mb-4"
+                name = "username"
+                placeholder = "Username"
+                ></input>
+                <input
+                className = "block border border-grey-light w-full p-3 rounded mb-4"
+                name = "password"
+                placeholder = "Password"
+                ></input>
+                <h4 className = "font-bold" >Forgot Password?</h4>
+                
+                <button onClick={() => {updateUserName("john")}}>Log In</button>
+                
+                <div>
+                New to KitchenConscious?&nbsp; 
+                <a className = "text-decoration-line: underline text-green-600 font-bold" href="../signup">
+                    Sign-up
+                </a>
+                </div>                                
+            </div>
+
         </div>
     )}
 

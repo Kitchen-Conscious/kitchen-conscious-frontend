@@ -17,8 +17,9 @@ export default function Main() {
                 <KitchenIcon />
                 <KitchenIcon />
                 <button >
-                    <img src="./addKitchen.png" className="content-center w-32 h-24"></img>
+                    <img src="./addKitchen.png" className="content-center w-34 h-24"></img>
                 </button>
+
             </div>
             <br></br>
             <hr></hr>
@@ -33,6 +34,7 @@ export default function Main() {
 
 
     )
+
 }
 
 

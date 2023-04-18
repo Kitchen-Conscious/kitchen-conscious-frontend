@@ -3,7 +3,7 @@ import { useContext } from "react";
 import { useState } from "react";
 import NavBar from "@/src/NavBar";
 import Link from "next/link"; // for next js
-import axios from "axios";
+// import axios from "axios";
 
 // when the user is signed up, set the state of the userName to the new user's name
 // Then redirect to the main page

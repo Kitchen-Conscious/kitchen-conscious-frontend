@@ -3,11 +3,35 @@ import { useContext } from "react";
 import NavBar from "@/src/NavBar";
 import KitchenIcon from "@/src/KitchenIcon";
 import InviteKitchen from "@/src/InviteKitchen"
+import axios from "axios";
 
 
 export default function Main() {
 
     const { userName, updateUserName } = useContext(MyContext);
+
+    const postNewKitchen = async () => {
+        try {
+            const response = await axios.post("http://localhost:8080/kitchens", {
+                username: userName,
+                details: "",
+                members: [0]
+            });
+            console.log(response.data);
+        } catch (error) {
+            console.error("Error caused at send: " + error);
+        }
+    };
+
+    const addKitchen = (event) => {
+        event.preventDefault();
+        //currently getting a 403
+        let p = postNewKitchen();
+        if (p) {
+            console.log("success");
+            console.log("username: " + userName);
+        }
+    };
 
     return (
         <div>
@@ -16,8 +40,8 @@ export default function Main() {
             <div className='flex flex-row'>
                 <KitchenIcon />
                 <KitchenIcon />
-                <button >
-                    <img src="./addKitchen.png" className="content-center w-34 h-24"></img>
+                <button onClick={addKitchen} >
+                    <img src="./addKitchen.png" className="content-center w-32 h-24"></img>
                 </button>
 
             </div>

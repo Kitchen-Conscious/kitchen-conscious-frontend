@@ -36,20 +36,16 @@ export default function Signup() {
     setInputs((values) => ({ ...values, [name]: value }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     // POST request to database to http://localhost:8080/register
     // include body with username and password
-
-    console.log(inputs.username);
-    console.log(inputs.password);
-
-    let p = postData();
+    let p = await postData();
     if (p) {
       console.log("success");
-      updateUserName(inputs.username);
+      await updateUserName(inputs.username);
       console.log("username: " + userName);
-      window.location.href = "http://localhost:3000/main";
+      ///window.location.href = "http://localhost:3000/main";
     }
   };
 

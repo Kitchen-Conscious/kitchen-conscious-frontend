@@ -15,10 +15,9 @@ export default function Login() {
     password: "",
   });
 
-
   const postData = async () => {
     try {
-      const response = await axios.post("http://localhost:8080/main", {
+      const response = await axios.post("http://localhost:8080/login", {
         username: inputs.username,
         password: inputs.password,
       });
@@ -26,6 +25,7 @@ export default function Login() {
     } catch (error) {
       console.error("Error caused at send: " + error);
     }
+    
   };
 
   const handleChange = (event) => {
@@ -38,16 +38,12 @@ export default function Login() {
     event.preventDefault();
     // POST request to database to http://localhost:8080/register
     // include body with username and password
-
-    console.log(inputs.username);
-    console.log(inputs.password);
-
-    let p = postData();
+  let p = postData();
     if (p) {
       console.log("success");
       updateUserName(inputs.username);
       console.log("username: " + userName);
-      window.location.href = "http://localhost:3000/main";
+      //window.location.href = "http://localhost:3000/main";
     }
   };
 
@@ -55,10 +51,11 @@ export default function Login() {
     <div>
       <NavBar />
       <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
-        <h1 className="flex justify-center py-5 text-3xl font-bold text-gray-600">Log in</h1>
-        
+        <h1 className="flex justify-center py-5 text-3xl font-bold text-gray-600">
+          Log in
+        </h1>
+
         <form onSubmit={handleSubmit}>
-        
           <input
             type="text"
             id="username"
@@ -70,41 +67,36 @@ export default function Login() {
             required
           ></input>
 
-        <input
-          className="block border w-full p-3 rounded-xl  bg-gray-100 border-gray-400 mb-4"
-          name="password"
-          placeholder="Password"
-          type="password"
-          id="password"
-          value={inputs.password || ""}
-          onChange={handleChange}
-          required
-        ></input>
+          <input
+            className="block border w-full p-3 rounded-xl  bg-gray-100 border-gray-400 mb-4"
+            name="password"
+            placeholder="Password"
+            type="password"
+            id="password"
+            value={inputs.password || ""}
+            onChange={handleChange}
+            required
+          ></input>
 
-
-        {/* <h4 className="font-bold">Forgot Password?</h4> */}
-        <button
-          className="w-60 shadow-black-lg mx-10 cursor-pointer bg-green-600/95 text-white  px-4 py-2 hover:bg-green-700 rounded-xl  text-lg font-medium lg:text-xl lg:px-20 "
-          type="submit"
-        >
-          LOG IN
-        </button>
-        
+          {/* <h4 className="font-bold">Forgot Password?</h4> */}
+          <button
+            className="w-60 shadow-black-lg mx-10 cursor-pointer bg-green-600/95 text-white  px-4 py-2 hover:bg-green-700 rounded-xl  text-lg font-medium lg:text-xl lg:px-20 "
+            type="submit"
+          >
+            LOG IN
+          </button>
         </form>
-        <br/>
+        <br />
         <div>
-            New to KitchenConscious?&nbsp;
-            <a
-              className="text-decoration-line: underline text-green-600 font-bold"
-              href="../signup"
-            >
-              Sign-up
-            </a>
+          New to KitchenConscious?&nbsp;
+          <a
+            className="text-decoration-line: underline text-green-600 font-bold"
+            href="../signup"
+          >
+            Sign-up
+          </a>
         </div>
-        
-      
       </div>
-
     </div>
   );
 }

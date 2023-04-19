@@ -2,35 +2,61 @@ import MyContext from "../src/myContext";
 import { useContext } from "react";
 import NavBar from "@/src/NavBar";
 import KitchenIcon from "@/src/KitchenIcon";
-import InviteKitchen from "@/src/InviteKitchen"
-import axios from "axios";
+import { useState } from "react";
+
+import InviteKitchen from "@/src/InviteKitchen";
 
 
 export default function Main() {
 
     const { userName, updateUserName } = useContext(MyContext);
 
+    const [newKitchenInfo, setNewKitchenInfo] = useState({
+        name: "",
+        details: "",
+        members: "0",
+    });
+
+    const handleNewKitchen = (props) => {
+        const name = props.n;
+        const details = props.d;
+        console.log( name + " " + details);
+        setNewKitchenInfo(() => ({["name"]: name, ["details"]: details, ["members"]: [0]}));
+    };
+
     const postNewKitchen = async () => {
-        try {
-            const response = await axios.post("http://localhost:8080/kitchens", {
-                username: userName,
-                details: "",
-                members: [0]
-            });
-            console.log(response.data);
-        } catch (error) {
-            console.error("Error caused at send: " + error);
+        fetch("http://localhost:8080/kitchens", {
+        method: "POST",
+        headers: {
+        "Content-Type": "application/json",
+      },
+        body: JSON.stringify(newKitchenInfo),
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.error(error));
+    };
+
+    const createKitchen = () => {
+
+        let p = postNewKitchen();
+        if (p) {
+            console.log(p);
+            console.log(newKitchenInfo)
+
         }
     };
 
     const addKitchen = (event) => {
         event.preventDefault();
-        //currently getting a 403
-        let p = postNewKitchen();
-        if (p) {
-            console.log("success");
-            console.log("username: " + userName);
-        }
+       
+        var n = prompt("Kitchen Name:", " ");
+        var d = prompt("Kitchen Details:", " ");
+
+        handleNewKitchen({n, d});
+
+        createKitchen();
+        
     };
 
     return (
@@ -60,6 +86,3 @@ export default function Main() {
     )
 
 }
-
-
-

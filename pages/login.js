@@ -15,7 +15,10 @@ export default function Login() {
     password: "",
   });
 
-  const postData = async () => {
+  const postData = async (event) => {
+    // prevent default
+    event.preventDefault();
+
     fetch("http://localhost:8080/login", {
       method: "POST",
       headers: {
@@ -24,27 +27,25 @@ export default function Login() {
       body: JSON.stringify(inputs),
     })
       .then((response) => response.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.error(error));
+      .then((data) => {
+        if (data.error) {
+          alert(data.error);
+        } else {
+          console.log(data);
+          updateUserName(data.userId);
+          window.location.href = "http://localhost:3000/main";
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+        alert("Incorrect Password Or User Name");
+      });
   };
 
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
     setInputs((values) => ({ ...values, [name]: value }));
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    // POST request to database to http://localhost:8080/register
-    // include body with username and password
-    let p = postData();
-    if (p) {
-      console.log("success");
-      updateUserName(inputs.username);
-      console.log("username: " + userName);
-      //window.location.href = "http://localhost:3000/main";
-    }
   };
 
   return (
@@ -55,7 +56,7 @@ export default function Login() {
           Log in
         </h1>
 
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={postData}>
           <input
             type="text"
             id="username"

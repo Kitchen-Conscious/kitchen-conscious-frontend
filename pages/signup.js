@@ -32,7 +32,7 @@ export default function Signup() {
     fetch("http://localhost:8080/register", {
       method: "POST",
       headers: {
-        accept: "*/*",
+        Accept: "*/*",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -50,7 +50,7 @@ export default function Signup() {
     <div>
       <NavBar />
 
-      <label className="flex justify-center py-12 text-3xl font-bold text-gray-600">
+      <label className="flex justify-center py-5 text-3xl font-bold text-gray-600">
         Sign Up
       </label>
 
@@ -58,13 +58,13 @@ export default function Signup() {
         <br />
         <form
           onSubmit={handleSubmit}
-          className="w-full max-w-md flex flex-col items-center"
+          className="w-full max-w-sm flex-col items-center"
         >
           <input
             type="email"
             id="email"
             name="email"
-            className="rounded-xl  bg-gray-100 border-gray-400 border p-1 w-60"
+            className="block border w-full p-3 rounded-xl  bg-gray-100 border-gray-400 mb-1"
             value={inputs.email || ""}
             onChange={handleChange}
             required
@@ -76,7 +76,7 @@ export default function Signup() {
             type="tel"
             id="phone"
             name="phone"
-            className="rounded-xl  bg-gray-100 border-gray-400 border p-1 w-60"
+            className="block border w-full p-3 rounded-xl  bg-gray-100 border-gray-400 mb-1"
             value={inputs.phone || ""}
             onChange={handleChange}
             required
@@ -88,7 +88,7 @@ export default function Signup() {
             type="text"
             id="username"
             name="username"
-            className="rounded-xl  bg-gray-100 border-gray-400 border p-1 w-60"
+            className="block border w-full p-3 rounded-xl  bg-gray-100 border-gray-400 mb-1"
             value={inputs.username || ""}
             onChange={handleChange}
             required
@@ -100,7 +100,7 @@ export default function Signup() {
             type="password"
             id="password"
             name="password"
-            className="rounded-xl  bg-gray-100 border-gray-400 border p-1 w-60"
+            className="block border w-full p-3 rounded-xl  bg-gray-100 border-gray-400 mb-1"
             value={inputs.password || ""}
             onChange={handleChange}
             required
@@ -121,7 +121,7 @@ export default function Signup() {
         Already have an account?
         <Link
           href="../login"
-          className="mx-1 cursor-pointer text-green-600  text-md font-medium "
+          className="mx-1 font-bold cursor-pointer text-green-600 underline text-md font-medium"
         >
           Log-In
         </Link>

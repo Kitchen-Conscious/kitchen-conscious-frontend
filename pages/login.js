@@ -12,27 +12,27 @@ export default function Login() {
     <div>
       <NavBar />
       <div className="container max-w-sm mx-auto flex-1 flex flex-col items-center justify-center px-2">
-        <h1 className="font-bold mb-8 text-3xl text-center">Log in</h1>
+        <h1 className="flex justify-center py-5 text-3xl font-bold text-gray-600">Log in</h1>
         <input
-          className="block border border-grey-light w-full p-3 rounded mb-4"
+          className="block border w-full p-3 rounded-xl  bg-gray-100 border-gray-400 mb-4"
           name="username"
           placeholder="Username"
         ></input>
         <input
-          className="block border border-grey-light w-full p-3 rounded mb-4"
+          className="block border w-full p-3 rounded-xl  bg-gray-100 border-gray-400 mb-4"
           name="password"
           placeholder="Password"
         ></input>
-        <h4 className="font-bold">Forgot Password?</h4>
+        {/* <h4 className="font-bold">Forgot Password?</h4> */}
         <br></br>
         <button
-          className="mx-10 cursor-pointer bg-green-600 text-white  px-4 py-2 hover:bg-green-700 rounded-full  text-lg font-medium lg:text-xl lg:px-20 "
+          className="mx-10 cursor-pointer bg-green-600 text-white rounded-xl px-4 py-2 hover:bg-green-700 rounded-full  text-lg font-medium lg:text-xl lg:px-20 shadow-lg shadow-green -500/50"
           onClick={() => {
             updateUserName("john");
             window.location.href = "http://localhost:3000/main";
           }}
         >
-          Log In
+          LOG IN
         </button>
         <br></br>
         <div>

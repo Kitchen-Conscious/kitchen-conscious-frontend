@@ -16,16 +16,16 @@ export default function Login() {
   });
 
   const postData = async () => {
-    try {
-      const response = await axios.post("http://localhost:8080/login", {
-        username: inputs.username,
-        password: inputs.password,
-      });
-      console.log(response.data);
-    } catch (error) {
-      console.error("Error caused at send: " + error);
-    }
-    
+    fetch("http://localhost:8080/login", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(inputs),
+    })
+      .then((response) => response.json())
+      .then((data) => console.log(data))
+      .catch((error) => console.error(error));
   };
 
   const handleChange = (event) => {
@@ -38,7 +38,7 @@ export default function Login() {
     event.preventDefault();
     // POST request to database to http://localhost:8080/register
     // include body with username and password
-  let p = postData();
+    let p = postData();
     if (p) {
       console.log("success");
       updateUserName(inputs.username);

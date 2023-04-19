@@ -107,13 +107,14 @@ export default function Signup() {
             placeholder=" Password"
           />
           <br />
-
+          <div className = "flex justify-center">
           <button
             type="submit"
             className=" w-60 shadow-black-lg mx-10 cursor-pointer bg-green-600/95 text-white  px-4 py-2 hover:bg-green-700 rounded-xl  text-lg font-medium lg:text-xl lg:px-20 "
           >
             SIGN UP
           </button>
+          </div>
         </form>
       </div>
 

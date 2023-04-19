@@ -12,26 +12,26 @@ export default function Main() {
 
     const postNewKitchen = async () => {
         try {
-          const response = await axios.post("http://localhost:8080/kitchens", {
-            username: userName,
-            details: "",
-            members: [0]
-          });
-          console.log(response.data);
+            const response = await axios.post("http://localhost:8080/kitchens", {
+                username: userName,
+                details: "",
+                members: [0]
+            });
+            console.log(response.data);
         } catch (error) {
-          console.error("Error caused at send: " + error);
+            console.error("Error caused at send: " + error);
         }
-      };
+    };
 
-      const addKitchen = (event) => {
+    const addKitchen = (event) => {
         event.preventDefault();
         //currently getting a 403
         let p = postNewKitchen();
         if (p) {
-          console.log("success");
-          console.log("username: " + userName);
+            console.log("success");
+            console.log("username: " + userName);
         }
-      };
+    };
 
     return (
         <div>
@@ -43,6 +43,7 @@ export default function Main() {
                 <button onClick={addKitchen} >
                     <img src="./addKitchen.png" className="content-center w-32 h-24"></img>
                 </button>
+
             </div>
             <br></br>
             <hr></hr>
@@ -57,6 +58,7 @@ export default function Main() {
 
 
     )
+
 }
 
 

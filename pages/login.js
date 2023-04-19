@@ -2,7 +2,7 @@ import MyContext from "../src/myContext";
 import { useContext } from "react";
 import { useState } from "react";
 import NavBar from "@/src/NavBar";
-import axios from "axios";
+// import axios from "axios";
 
 // when the user is signed up, set the state of the userName to the new user's name
 // Then redirect to the main page
@@ -16,16 +16,16 @@ export default function Login() {
   });
 
   const postData = async () => {
-    fetch("http://localhost:8080/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(inputs),
-    })
-      .then((response) => response.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.error(error));
+    try {
+      const response = await axios.post("http://localhost:8080/login", {
+        username: inputs.username,
+        password: inputs.password,
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error caused at send: " + error);
+    }
+    
   };
 
   const handleChange = (event) => {
@@ -38,7 +38,7 @@ export default function Login() {
     event.preventDefault();
     // POST request to database to http://localhost:8080/register
     // include body with username and password
-    let p = postData();
+  let p = postData();
     if (p) {
       console.log("success");
       updateUserName(inputs.username);

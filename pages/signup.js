@@ -36,20 +36,16 @@ export default function Signup() {
     setInputs((values) => ({ ...values, [name]: value }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     // POST request to database to http://localhost:8080/register
     // include body with username and password
-
-    console.log(inputs.username);
-    console.log(inputs.password);
-
-    let p = postData();
+    let p = await postData();
     if (p) {
       console.log("success");
-      updateUserName(inputs.username);
+      await updateUserName(inputs.username);
       console.log("username: " + userName);
-      window.location.href = "http://localhost:3000/main";
+      ///window.location.href = "http://localhost:3000/main";
     }
   };
 
@@ -57,7 +53,7 @@ export default function Signup() {
     <div>
       <NavBar />
 
-      <label className="flex justify-center py-12 text-3xl font-bold text-gray-600">
+      <label className="flex justify-center py-5 text-3xl font-bold text-gray-600">
         Sign Up
       </label>
 
@@ -65,13 +61,13 @@ export default function Signup() {
         <br />
         <form
           onSubmit={handleSubmit}
-          className="w-full max-w-md flex flex-col items-center"
+          className="w-full max-w-sm flex-col items-center"
         >
           <input
             type="email"
             id="email"
             name="email"
-            className="rounded-xl  bg-gray-100 border-gray-400 border p-1 w-60"
+            className="block border w-full p-3 rounded-xl  bg-gray-100 border-gray-400 mb-1"
             value={inputs.email || ""}
             onChange={handleChange}
             required
@@ -83,7 +79,7 @@ export default function Signup() {
             type="tel"
             id="phone"
             name="phone"
-            className="rounded-xl  bg-gray-100 border-gray-400 border p-1 w-60"
+            className="block border w-full p-3 rounded-xl  bg-gray-100 border-gray-400 mb-1"
             value={inputs.phone || ""}
             onChange={handleChange}
             required
@@ -95,7 +91,7 @@ export default function Signup() {
             type="text"
             id="username"
             name="username"
-            className="rounded-xl  bg-gray-100 border-gray-400 border p-1 w-60"
+            className="block border w-full p-3 rounded-xl  bg-gray-100 border-gray-400 mb-1"
             value={inputs.username || ""}
             onChange={handleChange}
             required
@@ -107,7 +103,7 @@ export default function Signup() {
             type="password"
             id="password"
             name="password"
-            className="rounded-xl  bg-gray-100 border-gray-400 border p-1 w-60"
+            className="block border w-full p-3 rounded-xl  bg-gray-100 border-gray-400 mb-1"
             value={inputs.password || ""}
             onChange={handleChange}
             required
@@ -117,7 +113,7 @@ export default function Signup() {
 
           <button
             type="submit"
-            className=" w-60 shadow-black-lg mx-10 cursor-pointer bg-green-600/95 text-white  px-4 py-2 hover:bg-green-700 rounded-xl  text-lg font-medium lg:text-xl lg:px-20 "
+            className="items-center w-60 shadow-black-lg mx-10 cursor-pointer bg-green-600/95 text-white  px-4 py-2 hover:bg-green-700 rounded-xl  text-lg font-medium lg:text-xl lg:px-20 "
           >
             SIGN UP
           </button>
@@ -128,7 +124,7 @@ export default function Signup() {
         Already have an account?
         <Link
           href="../login"
-          className="mx-1 cursor-pointer text-green-600  text-md font-medium "
+          className="mx-1 font-bold cursor-pointer text-green-600 underline text-md font-medium"
         >
           Log-In
         </Link>

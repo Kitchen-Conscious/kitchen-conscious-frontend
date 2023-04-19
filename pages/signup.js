@@ -3,17 +3,32 @@ import { useContext } from "react";
 import { useState } from "react";
 import NavBar from "@/src/NavBar";
 import Link from "next/link"; // for next js
+import axios from "axios";
 
 // when the user is signed up, set the state of the userName to the new user's name
 // Then redirect to the main page
 
 export default function Signup() {
+  const { userName, updateUserName } = useContext(MyContext);
+
   const [inputs, setInputs] = useState({
     username: "",
     password: "",
     email: "",
     phone: "",
   });
+
+  const postData = async () => {
+    try {
+      const response = await axios.post("http://localhost:8080/register", {
+        username: inputs.username,
+        password: inputs.password,
+      });
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error casued at send: " + error);
+    }
+  };
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -29,21 +44,13 @@ export default function Signup() {
     console.log(inputs.username);
     console.log(inputs.password);
 
-    fetch("http://localhost:8080/register", {
-      method: "POST",
-      headers: {
-        Accept: "*/*",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: inputs.username,
-        password: inputs.password,
-      }),
-    }).then((response) => console.log(JSON.stringify(response)));
-
-    //redirect to main page
-
-    //window.location.href = "http://localhost:3000/main";
+    let p = postData();
+    if (p) {
+      console.log("success");
+      updateUserName(inputs.username);
+      console.log("username: " + userName);
+      window.location.href = "http://localhost:3000/main";
+    }
   };
 
   return (

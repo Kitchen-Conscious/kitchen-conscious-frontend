@@ -24,10 +24,6 @@ export default function Signup() {
         username: inputs.username,
         password: inputs.password,
       });
-      console.log(response.data);
-    } catch (error) {
-      console.error("Error casued at send: " + error);
-    }
   };
 
   const handleChange = (event) => {

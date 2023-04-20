@@ -24,7 +24,8 @@ function kitchenDetails() {
 
   useEffect(() => {
     async function fetchData() {
-      const member = await fetch(
+        //const res = await fetch(`http://localhost:8080/kitchens/${id}`, { credentials: "include" });
+        const member = await fetch(
         `http://localhost:8080/kitchens/${id}/members`,
         {
           method: "GET",

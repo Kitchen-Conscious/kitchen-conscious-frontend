@@ -14,11 +14,10 @@ export default function Signup() {
   const [inputs, setInputs] = useState({
     username: "",
     password: "",
-    email: "",
-    phone: "",
   });
 
-  const postData = async () => {
+  const postData = async (event) => {
+    event.preventDefault();
     fetch("http://localhost:8080/register", {
       method: "POST",
       headers: {
@@ -26,17 +25,20 @@ export default function Signup() {
       },
       body: JSON.stringify(inputs),
     })
-      .then((response) => response.json())
-      .then((data) => {
-          console.log(data);
-          updateUserName(data.userId);
-          window.location.href = "http://localhost:3000/main";
-
-      })
-      .catch((error) => {
-        console.error(error);
-        alert("Incorrect Input");
-      });
+    .then((response) => response.json())
+    .then((data) => {
+      if (data.error) {
+        alert(data.error);
+      } else {
+        console.log(data);
+        updateUserName(data.userId);
+        window.location.href = "http://localhost:3000/main";
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+      alert("Incorrect Password Or User Name");
+    });
   };
 
   const handleChange = (event) => {
@@ -44,7 +46,6 @@ export default function Signup() {
     const value = event.target.value;
     setInputs((values) => ({ ...values, [name]: value }));
   };
-
 
   return (
     <div>
@@ -60,13 +61,13 @@ export default function Signup() {
           onSubmit={postData}
           className="w-full max-w-sm flex-col items-center"
         >
-          <input
+          {/* <input
             type="email"
             id="email"
             name="email"
             className="block border w-full p-3 rounded-xl  bg-gray-100 border-gray-400 mb-1"
             value={inputs.email || ""}
-            onChange={handleChange}
+            //onChange={handleChange}
             required
             placeholder=" Email"
           />
@@ -78,11 +79,11 @@ export default function Signup() {
             name="phone"
             className="block border w-full p-3 rounded-xl  bg-gray-100 border-gray-400 mb-1"
             value={inputs.phone || ""}
-            onChange={handleChange}
+            //onChange={handleChange}
             required
             placeholder=" Phone Number"
           />
-          <br />
+          <br /> */}
 
           <input
             type="text"

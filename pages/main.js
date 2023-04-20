@@ -11,53 +11,28 @@ export default function Main() {
 
     const { userName, updateUserName } = useContext(MyContext);
 
-    const [newKitchenInfo, setNewKitchenInfo] = useState({
-        name: "",
-        details: "",
-        members: "0",
-    });
-
-    const handleNewKitchen = (props) => {
-        const name = props.n;
-        const details = props.d;
-        console.log( name + " " + details);
-        setNewKitchenInfo(() => ({["name"]: name, ["details"]: details, ["members"]: [0]}));
-    };
-
-    const postNewKitchen = async () => {
+    const postNewKitchen = async (data) => {
         fetch("http://localhost:8080/kitchens", {
             credentials: "include",
             method: "POST",
             headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify(newKitchenInfo),
+        body: JSON.stringify(data),
     })
       .then((response) => response.json())
       .then((data) => console.log(data))
       .catch((error) => console.error(error));
     };
 
-    const createKitchen = () => {
-
-        let p = postNewKitchen();
-        if (p) {
-            console.log(p);
-            console.log(newKitchenInfo)
-
-        }
-    };
-
     const addKitchen = (event) => {
         event.preventDefault();
 
-        var n = prompt("Kitchen Name:", " ");
-        var d = prompt("Kitchen Details:", " ");
+        const name = prompt("Kitchen Name:", " ");
+        const details = prompt("Kitchen Details:", " ");
+        const members = []
 
-        handleNewKitchen({n, d});
-
-        createKitchen();
-
+        postNewKitchen({name, details, members})
     };
 
     return (

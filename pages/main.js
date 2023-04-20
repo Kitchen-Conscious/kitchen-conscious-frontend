@@ -26,10 +26,11 @@ export default function Main() {
 
     const postNewKitchen = async () => {
         fetch("http://localhost:8080/kitchens", {
-        method: "POST",
-        headers: {
-        "Content-Type": "application/json",
-      },
+            credentials: "include",
+            method: "POST",
+            headers: {
+            "Content-Type": "application/json",
+        },
         body: JSON.stringify(newKitchenInfo),
     })
       .then((response) => response.json())
@@ -49,14 +50,14 @@ export default function Main() {
 
     const addKitchen = (event) => {
         event.preventDefault();
-       
+
         var n = prompt("Kitchen Name:", " ");
         var d = prompt("Kitchen Details:", " ");
 
         handleNewKitchen({n, d});
 
         createKitchen();
-        
+
     };
 
     return (

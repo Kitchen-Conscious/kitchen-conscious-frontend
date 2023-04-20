@@ -23,7 +23,7 @@ function kitchenDetails() {
 
   useEffect(() => {
     async function fetchData() {
-        const res = await fetch(`http://localhost:8080/kitchens/${id}`);
+        const res = await fetch(`http://localhost:8080/kitchens/${id}`, { credentials: "include" });
         const json = await res.json();
         setKitchenData(json);
     }

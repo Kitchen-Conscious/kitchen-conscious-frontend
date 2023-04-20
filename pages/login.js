@@ -20,6 +20,7 @@ export default function Login() {
     event.preventDefault();
 
     fetch("http://localhost:8080/login", {
+      credentials: "include",
       method: "POST",
       headers: {
         "Content-Type": "application/json",

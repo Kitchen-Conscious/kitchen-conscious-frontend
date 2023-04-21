@@ -7,58 +7,54 @@ import { useEffect } from "react";
 
 import InviteKitchen from "@/src/InviteKitchen";
 
-
 export default function Main() {
   const { userName, updateUserName } = useContext(MyContext);
   const [kitchens, setKitchens] = useState([]);
 
   const postNewKitchen = async (data) => {
     fetch("http://localhost:8080/kitchens", {
-        credentials: "include",
-        method: "POST",
-        headers: {
+      credentials: "include",
+      method: "POST",
+      headers: {
         "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-})
-  .then((response) => response.json())
-  .then((data) => {
-    console.log(data);
-    fetchKitchens(); 
-  })
-  .catch((error) => console.error(error));
-};
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        fetchKitchens();
+      })
+      .catch((error) => console.error(error));
+  };
 
-    const addKitchen = (event) => {
-       
-        event.preventDefault();
-        const name = prompt("Kitchen Name:", " ");
-        const details = prompt("Kitchen Details:", " ");
-        const members = []
+  const addKitchen = (event) => {
+    event.preventDefault();
+    const name = prompt("Kitchen Name:", " ");
+    const details = prompt("Kitchen Details:", " ");
+    const members = [];
 
-        postNewKitchen({name, details, members})
-    };
+    postNewKitchen({ name, details, members });
+  };
 
-    const fetchKitchens = () => {
-        fetch(`http://localhost:8080/users/${userName}/kitchens`, {
-          credentials: "include",
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          }
-        })
-        .then((response) => response.json())
-        .then((data) => {
-          setKitchens(data);
-        })
-        .catch((error) => console.error(error));
-      };
+  const fetchKitchens = () => {
+    fetch(`http://localhost:8080/users/${userName}/kitchens`, {
+      credentials: "include",
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        setKitchens(data);
+      })
+      .catch((error) => console.error(error));
+  };
 
-    useEffect(() => {
-        
-        fetchKitchens(); 
-      
-    }, []);
+  useEffect(() => {
+    fetchKitchens();
+  }, []);
 
   return (
     <div>
@@ -66,23 +62,23 @@ export default function Main() {
       <label className="flex justify-center py-12 text-4xl font-bold text-gray-600">
         Your Kitchens
       </label>
-      <div style={{ overflowX: 'scroll', whiteSpace: 'nowrap' }}>
-        <div style={{ width: 'max-content' }}>
-            <div className="flex flex-row">
-            {kitchens.length > 0 && kitchens.map((kitchen) => (
-                <KitchenIcon
-                    key={kitchen.kitchenId}
-                    name={kitchen.kitchen.name}
-                    kitchenId={kitchen.kitchen.kitchenId}
-                />
-                ))}
-                <button onClick={addKitchen}>
-                <img
-                    src="./addKitchen.png"
-                    className="content-center w-32 h-24"
-                ></img>
-                </button>
-            </div>
+      <div style={{ overflowX: "scroll", whiteSpace: "nowrap" }}>
+        <div style={{ width: "max-content" }}>
+          <div className="flex flex-row">
+            {kitchens.map((kitchen) => (
+              <KitchenIcon
+                key={kitchen.kitchenId}
+                name={kitchen.kitchen.name}
+                kitchenId={kitchen.kitchen.kitchenId}
+              />
+            ))}
+            <button onClick={addKitchen}>
+              <img
+                src="./addKitchen.png"
+                className="content-center w-32 h-24"
+              ></img>
+            </button>
+          </div>
         </div>
       </div>
       <br></br>
@@ -99,6 +95,3 @@ export default function Main() {
     </div>
   );
 }
-
-
-

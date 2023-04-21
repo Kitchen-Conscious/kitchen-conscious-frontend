@@ -23,16 +23,16 @@ function kitchenDetails() {
   });
 
   useEffect(() => {
+    console.log(id);
     async function fetchData() {
-        //const res = await fetch(`http://localhost:8080/kitchens/${id}`, { credentials: "include" });
-        const member = await fetch(
+      //const res = await fetch(`http://localhost:8080/kitchens/${id}`, { credentials: "include" });
+      const member = await fetch(
         `http://localhost:8080/kitchens/${id}/members`,
         {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(inputs),
         }
       )
         .then((response) => response.json())
@@ -57,7 +57,6 @@ function kitchenDetails() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(inputs),
         }
       )
         .then((response) => response.json())
@@ -83,7 +82,6 @@ function kitchenDetails() {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(inputs),
         })
           .then((response) => response.json())
           .then((data) => {
@@ -106,36 +104,35 @@ function kitchenDetails() {
       // get kitchen name and description
 
       const name = await fetch(`http://localhost:8080/kitechens/${id}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(inputs),
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.error) {
+            alert(data.error);
+            return;
+          } else {
+            console.log("name: " + data);
+            return data;
+          }
         })
-          .then((response) => response.json())
-          .then((data) => {
-            if (data.error) {
-              alert(data.error);
-              return;
-            } else {
-              console.log("name: " + data);
-              return data;
-            }
-          })
-          .catch((error) => {
-            console.error(error);
-            alert("Error fetching item");
-          });
+        .catch((error) => {
+          console.error(error);
+          alert("Error fetching item");
+        });
 
       // set kitchen data
       // first see what these return and then set the state
-        setKitchenData({
-            name: name,
-            members: member,
-            items: items,
-        });
+      // setKitchenData({
+      //     name: name,
+      //     members: member,
+      //     items: items,
+      // });
     }
-    //fetchData();
+    fetchData();
   }, []);
 
   async function copyLink() {
@@ -192,6 +189,7 @@ function kitchenDetails() {
                 owner={item.owner}
                 expires={item.expires}
                 itemId={item.itemId}
+                key={item.itemId}
               />
             ))}
           </div>

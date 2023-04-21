@@ -34,7 +34,7 @@ export default function Login() {
         } else {
           console.log(data);
           updateUserName(data.userId);
-          window.location.href = "http://localhost:3000/main";
+          window.location.href = "http://localhost:3000";
         }
       })
       .catch((error) => {

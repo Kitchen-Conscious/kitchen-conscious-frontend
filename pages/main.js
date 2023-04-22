@@ -65,7 +65,7 @@ export default function Main() {
       <div style={{ overflowX: "scroll", whiteSpace: "nowrap" }}>
         <div style={{ width: "max-content" }}>
           <div className="flex flex-row">
-            {kitchens.map((kitchen) => (
+            {kitchens && kitchens.filter && kitchens.filter((kitchen) => !kitchen.pending).map((kitchen) => (
               <KitchenIcon
                 key={kitchen.kitchenId}
                 name={kitchen.kitchen.name}
@@ -89,8 +89,13 @@ export default function Main() {
         Kitchen Invitations
       </label>
       <div className="flex flex-row pt-10">
-        <InviteKitchen />
-        <InviteKitchen />
+      {kitchens && kitchens.filter && kitchens.filter((kitchen) => kitchen.pending).map((kitchen) => (
+            <InviteKitchen
+            key={kitchen.kitchenId}
+            name={kitchen.kitchen.name}
+            kitchenId={kitchen.kitchen.kitchenId}
+            />
+        ))}
       </div>
     </div>
   );

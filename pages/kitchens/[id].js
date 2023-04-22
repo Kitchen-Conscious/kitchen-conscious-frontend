@@ -4,6 +4,50 @@ import MyContext from "@/src/myContext";
 import NavBar from "@/src/NavBar";
 import Items from "@/src/Items";
 
+//be able to share with users that are registred
+//not tested yet
+const shareHandler = async (data) => {
+  const router = useRouter();
+  const { kitchenId } = router.query;
+  fetch(`http://localhost:8080/kitchens/${kitchenId}/members`, {
+    credentials: "include",
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => response.json())
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));
+};
+
+//currently getting 403
+const shareWithMembers = async (event) => {
+  
+  event.preventDefault();
+  const uName = prompt("Username you wish to share with:", "");
+  const type = prompt("User Type (VIEWER or EDITOR):", " ");
+  console.log(uName);
+  const response = await fetch(
+    `http://localhost:8080/users?username=${uName}`,
+    {
+      credentials: "include",
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  if (response.ok) {
+    const data = await response.json();
+    shareHandler({ uID: data.userId, type });
+  } else {
+    console.error("Failed to fetch user data");
+  }
+};
+
+
 function kitchenDetails() {
   const router = useRouter();
   const { id } = router.query;
@@ -198,7 +242,64 @@ function kitchenDetails() {
     );
   } else {
     // Display the kitchens edit page
-    return {};
+    return (
+      <div className="flex flex-col">
+        <NavBar />
+        <div classname="flex flex-row">
+          <button
+            onClick={copyLink}
+            className="w-50 shadow-black-lg mx-10 cursor-pointer bg-green-600/95 text-white  px-4 py-2 hover:bg-green-700 rounded-xl  text-lg font-medium lg:text-xl mt-12 "
+          >
+            Share as a Link
+          </button>
+          <button
+            onClick={shareWithMembers}
+            className="w-50 shadow-black-lg mx-1 cursor-pointer bg-green-600/95 text-white  px-4 py-2 hover:bg-green-700 rounded-xl  text-lg font-medium lg:text-xl mt-12 "
+          >
+            Share to Other Members
+          </button>
+        </div>
+        <div>
+          <div className="flex flex-row items-center align-middle justify-center">
+            <label className="flex justify-center py-12 text-4xl font-bold text-gray-600 mr-8">
+              {kitchenData.name}
+            </label>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke-width="1.5"
+              stroke="currentColor"
+              class="w-12 h-12"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
+              />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+              />
+            </svg>
+          </div>
+
+          <div className="">
+            {kitchenData.items.map((item) => (
+              <Items
+                name={item.name}
+                quantity={item.quantity}
+                owner={item.owner}
+                expires={item.expires}
+                itemId={item.itemId}
+                key={item.itemId}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
+    );
   }
 }
 

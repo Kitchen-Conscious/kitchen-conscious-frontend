@@ -14,6 +14,8 @@ export default function Signup() {
   const [inputs, setInputs] = useState({
     username: "",
     password: "",
+    email: "",
+    phone: "",
   });
 
   const postData = async (event) => {
@@ -62,13 +64,13 @@ export default function Signup() {
           onSubmit={postData}
           className="w-full max-w-sm flex-col items-center"
         >
-          {/* <input
+          <input
             type="email"
             id="email"
             name="email"
             className="block border w-full p-3 rounded-xl  bg-gray-100 border-gray-400 mb-1"
             value={inputs.email || ""}
-            //onChange={handleChange}
+            onChange={handleChange}
             required
             placeholder=" Email"
           />
@@ -80,11 +82,11 @@ export default function Signup() {
             name="phone"
             className="block border w-full p-3 rounded-xl  bg-gray-100 border-gray-400 mb-1"
             value={inputs.phone || ""}
-            //onChange={handleChange}
+            onChange={handleChange}
             required
             placeholder=" Phone Number"
           />
-          <br /> */}
+          <br />
 
           <input
             type="text"

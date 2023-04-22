@@ -204,7 +204,19 @@ function kitchenDetails() {
             <label className="flex justify-center py-12 text-4xl font-bold text-gray-600 mr-8">
               {kitchenData.name}
             </label>
-            <svg
+            
+            {/* edit icon */}
+            <svg 
+              width="40" 
+              height="40" 
+              viewBox="0 0 40 40" 
+              fill="none" 
+              xmlns="http://www.w3.org/2000/svg">
+              <path d="M30 0L25 5L35 15L40 10L30 0ZM20 10L0 30V40H10L30 20L20 10Z" fill="black"/>
+            </svg>
+
+            {/* view only icon */}
+            {/* <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -222,7 +234,7 @@ function kitchenDetails() {
                 stroke-linejoin="round"
                 d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
               />
-            </svg>
+            </svg> */}
           </div>
 
           <div className="">
@@ -297,6 +309,7 @@ function kitchenDetails() {
               />
             ))}
           </div>
+          
         </div>
       </div>
     );

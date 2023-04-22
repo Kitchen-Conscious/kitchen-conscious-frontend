@@ -4,48 +4,7 @@ import MyContext from "@/src/myContext";
 import NavBar from "@/src/NavBar";
 import Items from "@/src/Items";
 
-//be able to share with users that are registred
-//not tested yet
-const shareHandler = async (data) => {
-  const router = useRouter();
-  const { kitchenId } = router.query;
-  fetch(`http://localhost:8080/kitchens/${kitchenId}/members`, {
-    credentials: "include",
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(data),
-  })
-    .then((response) => response.json())
-    .then((data) => console.log(data))
-    .catch((error) => console.error(error));
-};
 
-//currently getting 403
-const shareWithMembers = async (event) => {
-  
-  event.preventDefault();
-  const uName = prompt("Username you wish to share with:", "");
-  const type = prompt("User Type (VIEWER or EDITOR):", " ");
-  console.log(uName);
-  const response = await fetch(
-    `http://localhost:8080/users?username=${uName}`,
-    {
-      credentials: "include",
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }
-  );
-  if (response.ok) {
-    const data = await response.json();
-    shareHandler({ uID: data.userId, type });
-  } else {
-    console.error("Failed to fetch user data");
-  }
-};
 
 
 function kitchenDetails() {
@@ -179,6 +138,50 @@ function kitchenDetails() {
     fetchData();
   }, []);
 
+//be able to share with users that are registred
+//not tested yet
+const shareHandler = async (data) => {
+  //const router = useRouter();
+  //const { kitchenId } = router.query;
+  console.log(id);
+  fetch(`http://localhost:8080/kitchens/${id}/members`, {
+    credentials: "include",
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  })
+    .then((response) => response.json())
+    .then((data) => console.log(data))
+    .catch((error) => console.error(error));
+};
+
+//currently getting 403
+const shareWithMembers = async (event) => {
+  
+  event.preventDefault();
+  const uName = prompt("Username you wish to share with:", "");
+  const type = prompt("User Type (VIEWER or EDITOR):", " ");
+  console.log(uName);
+  const response = await fetch(
+    `http://localhost:8080/users?username=${uName}`,
+    {
+      credentials: "include",
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }
+  );
+  if (response.ok) {
+    const data = await response.json();
+    shareHandler({ userId: data.userId, type });
+  } else {
+    console.error("Failed to fetch user data");
+  }
+};
+
   async function copyLink() {
     await navigator.clipboard.writeText(window.location.href);
     alert("Link Copied to Clipboard");
@@ -204,19 +207,7 @@ function kitchenDetails() {
             <label className="flex justify-center py-12 text-4xl font-bold text-gray-600 mr-8">
               {kitchenData.name}
             </label>
-            
-            {/* edit icon */}
-            <svg 
-              width="40" 
-              height="40" 
-              viewBox="0 0 40 40" 
-              fill="none" 
-              xmlns="http://www.w3.org/2000/svg">
-              <path d="M30 0L25 5L35 15L40 10L30 0ZM20 10L0 30V40H10L30 20L20 10Z" fill="black"/>
-            </svg>
-
-            {/* view only icon */}
-            {/* <svg
+            <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -234,7 +225,7 @@ function kitchenDetails() {
                 stroke-linejoin="round"
                 d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
               />
-            </svg> */}
+            </svg>
           </div>
 
           <div className="">
@@ -309,7 +300,6 @@ function kitchenDetails() {
               />
             ))}
           </div>
-          
         </div>
       </div>
     );

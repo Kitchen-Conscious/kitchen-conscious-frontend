@@ -11,7 +11,7 @@ function kitchenDetails() {
   const router = useRouter();
   const { id } = router.query;
   const { userName, itemUpdated, setItemUpdated } = useContext(MyContext);
-  const { isMember, setIsMember } = useState(false);
+  const [isMember, setIsMember] = useState(false);
   const [kitchenData, setKitchenData] = useState({
     name: "",
     details: "",
@@ -50,6 +50,21 @@ function kitchenDetails() {
     setKitchenData(newItems);
     setInputName("");
   };
+
+  useEffect(() => {
+    // set isMember to true if the user is a member of the kitchen
+    // set isMember to false if the user is not a member of the kitchen
+    console.log("Members: " + kitchenData.members);
+    for (let i = 0; i < kitchenData.members.length; i++) {
+      if (kitchenData.members[i] == userName) {
+        setIsMember(true);
+        break;
+      }
+      setIsMember(false);
+    }
+
+    console.log("isMember: " + isMember);
+  }, [kitchenData]);
 
   const handleClose = async (event) => {
     event.preventDefault();
@@ -98,7 +113,7 @@ function kitchenDetails() {
             console.log("members: " + data[0]);
             console.log(data[0]);
             for (let i = 0; i < data.length; i++) {
-              if (data[i].type === "OWNER") {
+              if (data[i].type === "OWNER" || data[i].type === "EDITOR") {
                 result.push(data[i].userId);
               }
             }
@@ -229,9 +244,24 @@ function kitchenDetails() {
 
   const shareWithMembers = async (event) => {
     event.preventDefault();
-    const uId = prompt("UserId you wish to share with:", "");
+    const uname = prompt("Username you wish to share with:", "");
     const type = prompt("User Type (VIEWER or EDITOR):", " ");
-    console.log(uId);
+    const uid = await fetch(`http://localhost:8080/users?username=${uname}`, {
+      credentials: "include",
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        return data.userId;
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    await console.log(uid);
     const response = await fetch(
       `http://localhost:8080/kitchens/${id}/members`,
       {
@@ -240,7 +270,7 @@ function kitchenDetails() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ userId: uId, type: type }),
+        body: JSON.stringify({ userId: uid, type: type }),
       }
     )
       .then((response) => response.json())
@@ -273,7 +303,7 @@ function kitchenDetails() {
     expirationDate: "",
   });
 
-  if (userName == "" || userName == null) {
+  if (!isMember || userName == "" || userName == null) {
     // Display the kitchens view page
     return (
       <div className="flex flex-col">

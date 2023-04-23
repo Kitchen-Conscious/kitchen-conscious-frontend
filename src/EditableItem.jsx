@@ -7,6 +7,36 @@ import { useContext } from "react";
 function EditableItem(props) {
   const { itemUpdated, setItemUpdated } = useContext(MyContext);
 
+  const editItem = async (event) => {
+    event.preventDefault();
+    const quant = prompt("Enter New Quantity:", "");
+    const response = await fetch(
+      `http://localhost:8080/items/${props.itemId}`,
+      {
+        credentials: "include",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: props.name,
+          count: quant,
+          detail: props.owner,
+          expirationDate: props.expires,
+        }),
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    setItemUpdated(!itemUpdated);
+  };
+
   const handleDelete = async (event) => {
     event.preventDefault();
 
@@ -49,7 +79,7 @@ function EditableItem(props) {
           />
         </svg>
       </button>
-      <div className="flex flex-row w-full l-44 border-l-8  border-l-green-600 solid shadow-black-lg mx-10 cursor-pointer bg-neutral-100 text-black  py-2 rounded-xl px:60">
+      <div className="flex flex-row w-full l-44 border-l-8  border-l-green-600 solid shadow-black-lg mx-10 bg-neutral-100 text-black  py-2 rounded-xl px:60">
         <div>
           <h1 className="px-10 pt-2 text-3xl">{props.name}</h1>
 
@@ -68,7 +98,10 @@ function EditableItem(props) {
             </h2>
           </div>
         </div>
-        <div className=" w-24 rounded-xl l-44 center pr-1 bg-white mr-6">
+        <div
+          className=" w-24 rounded-xl l-44 center pr-1 bg-white mr-6 cursor-pointer"
+          onClick={editItem}
+        >
           <h1 className="pt-2 text-center text-5xl">{props.quantity}</h1>
           <h2 className="text-center pt-3 ">left</h2>
         </div>

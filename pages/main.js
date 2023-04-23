@@ -11,6 +11,7 @@ export default function Main() {
   const { userName, updateUserName } = useContext(MyContext);
   const [kitchens, setKitchens] = useState([]);
 
+  
   const postNewKitchen = async (data) => {
     fetch("http://localhost:8080/kitchens", {
       credentials: "include",
@@ -23,7 +24,7 @@ export default function Main() {
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
-        fetchKitchens();
+        //fetchKitchens();
       })
       .catch((error) => console.error(error));
   };
@@ -37,24 +38,24 @@ export default function Main() {
     postNewKitchen({ name, details, members });
   };
 
-  const fetchKitchens = () => {
-    fetch(`http://localhost:8080/users/${userName}/kitchens`, {
-      credentials: "include",
-      method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setKitchens(data);
-      })
-      .catch((error) => console.error(error));
-  };
-
   useEffect(() => {
+    const fetchKitchens = () => {
+      fetch(`http://localhost:8080/users/${userName}/kitchens`, {
+        credentials: "include",
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          setKitchens(data);
+        })
+        .catch((error) => console.error(error));
+    };
+
     fetchKitchens();
-  }, []);
+  }, [postNewKitchen]);
 
   return (
     <div>
@@ -65,13 +66,17 @@ export default function Main() {
       <div style={{ overflowX: "scroll", whiteSpace: "nowrap" }}>
         <div style={{ width: "max-content" }}>
           <div className="flex flex-row">
-            {kitchens && kitchens.filter && kitchens.filter((kitchen) => !kitchen.pending).map((kitchen) => (
-              <KitchenIcon
-                key={kitchen.kitchenId}
-                name={kitchen.kitchen.name}
-                kitchenId={kitchen.kitchen.kitchenId}
-              />
-            ))}
+            {kitchens &&
+              kitchens.filter &&
+              kitchens
+                .filter((kitchen) => !kitchen.pending)
+                .map((kitchen) => (
+                  <KitchenIcon
+                    key={kitchen.kitchenId}
+                    name={kitchen.kitchen.name}
+                    kitchenId={kitchen.kitchen.kitchenId}
+                  />
+                ))}
             <button onClick={addKitchen}>
               <img
                 src="./addKitchen.png"
@@ -89,13 +94,17 @@ export default function Main() {
         Kitchen Invitations
       </label>
       <div className="flex flex-row pt-10">
-      {kitchens && kitchens.filter && kitchens.filter((kitchen) => kitchen.pending).map((kitchen) => (
-            <InviteKitchen
-            key={kitchen.kitchenId}
-            name={kitchen.kitchen.name}
-            kitchenId={kitchen.kitchen.kitchenId}
-            />
-        ))}
+        {kitchens &&
+          kitchens.filter &&
+          kitchens
+            .filter((kitchen) => kitchen.pending)
+            .map((kitchen) => (
+              <InviteKitchen
+                key={kitchen.kitchenId}
+                name={kitchen.kitchen.name}
+                kitchenId={kitchen.kitchen.kitchenId}
+              />
+            ))}
       </div>
     </div>
   );

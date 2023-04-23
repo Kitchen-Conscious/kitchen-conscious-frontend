@@ -215,6 +215,7 @@ const shareWithMembers = async (event) => {
             <label className="flex justify-center py-12 text-4xl font-bold text-gray-600 mr-8">
               {kitchenData.name}
             </label>
+
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -275,25 +276,17 @@ const shareWithMembers = async (event) => {
             <label className="flex justify-center py-12 text-4xl font-bold text-gray-600 mr-8">
               {kitchenData.name}
             </label>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="w-12 h-12"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
-              />
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-              />
-            </svg>
+            <button>
+              <svg 
+              width="40" 
+              height="40" 
+              viewBox="0 0 40 40" 
+              fill="none" 
+              xmlns="http://www.w3.org/2000/svg">
+              <path d="M30 0L25 5L35 15L40 10L30 0ZM20 10L0 30V40H10L30 20L20 10Z" 
+              fill="black"/>
+              </svg>
+            </button>
           </div>
 
           <div className="">
@@ -307,6 +300,45 @@ const shareWithMembers = async (event) => {
                 key={item.itemId}
               />
             ))}
+          </div>
+          <div className = "flex justify-center">
+            <button data-modal-target="addItem" data-modal-toggle="addItem" className="w-50 shadow-black-lg mx-10 cursor-pointer bg-green-600/95 text-white  px-4 py-2 hover:bg-green-700 rounded-xl  text-lg font-medium lg:text-xl mt-12 " type="button">
+            Add Item
+            </button>
+            <div id="addItem" tabindex="-1" className="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+                <div className="relative w-full max-w-md max-h-full">
+                    <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+                        <button type="button" className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white" data-modal-hide="addItem">
+                            <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                            <span className="sr-only">Close form</span>
+                        </button>
+                        <div className="px-6 py-6 lg:px-8">
+                            <h3 className="mb-4 text-xl font-medium text-gray-900 dark:text-white">Add An Item</h3>
+                            <form className="space-y-6" action="#">
+                                <div>
+                                    <label for="name" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Name</label>
+                                    <input type="text" name="name" id="name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required/>
+                                </div>
+                                <div>
+                                    <label for="item" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Item</label>
+                                    <input type="item" name="item" id="item" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required/>
+                                </div>
+                                <div>
+                                    <label for="quantity" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Expiration Date</label>
+                                    <input type="text" name="quantity" id="quantity" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required/>
+                                </div>
+                                <div>
+                                    <label for="expiration" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Expiration Date</label>
+                                    <input type="date" name="expiration" id="expiration" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required/>
+                                </div>
+                                
+
+                                <button type="submit" className="w-full text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Add</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div> 
           </div>
         </div>
       </div>

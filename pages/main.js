@@ -5,14 +5,16 @@ import KitchenIcon from "@/src/KitchenIcon";
 import { useState } from "react";
 import { useEffect } from "react";
 
+
 import InviteKitchen from "@/src/InviteKitchen";
 
 export default function Main() {
+
   const { userName, updateUserName } = useContext(MyContext);
   const { kitchenUpdated, updateKitchen } = useContext(MyContext);
   const [kitchens, setKitchens] = useState([]);
 
-  
+
   const postNewKitchen = async (data) => {
     fetch("http://localhost:8080/kitchens", {
       credentials: "include",
@@ -64,9 +66,9 @@ export default function Main() {
       <label className="flex justify-center py-12 text-4xl font-bold text-gray-600 gap-5">
         Your Kitchens
       </label>
-      
+
       <div style={{ overflowX: "scroll", whiteSpace: "nowrap" }}>
-        <div style={{ width: "max-content" }}>  
+        <div style={{ width: "max-content" }}>
           <div className="flex flex-row">
             {kitchens &&
               kitchens.filter &&

@@ -15,6 +15,7 @@ function kitchenDetails() {
   const { isMember, setIsMember } = useState(false);
   const [kitchenData, setKitchenData] = useState({
     name: "Kitchen 1",
+    details: "details",
     members: [],
     items: [
       {
@@ -172,6 +173,7 @@ function kitchenDetails() {
       // first see what these return and then set the state
       setKitchenData({
           name: name.name,
+          details: name.details,
           members: member,
           items: items,
       });
@@ -282,8 +284,8 @@ function kitchenDetails() {
           Share
         </button>
         <div>
-          <div className="flex flex-row items-center align-middle justify-center">
-            <label className="flex justify-center py-12 text-4xl font-bold text-gray-600 mr-8">
+          <div className="flex flex-row items-center align-middle justify-center pt-12 pb-5">
+            <label className="flex justify-center text-4xl font-bold text-gray-600 mr-8">
               {kitchenData.name}
             </label>
 
@@ -307,6 +309,9 @@ function kitchenDetails() {
               />
             </svg>
           </div>
+          <label className="flex justify-center pb-10 text-xl  text-gray-600 mr-8">
+              {kitchenData.details}
+            </label>
           <div className="">
             {kitchenData.items.map((item) => (
               <Items
@@ -344,8 +349,8 @@ function kitchenDetails() {
           </button>
         </div>
         <div>
-          <div className="flex flex-row items-center align-middle justify-center">
-            <label className="flex justify-center py-12 text-4xl font-bold text-gray-600 mr-8">
+          <div className="flex flex-row items-center align-middle justify-center pt-12 pb-5">
+            <label className="flex justify-center text-4xl font-bold text-gray-600 mr-8">
               {kitchenData.name}
             </label>
             <button>
@@ -363,7 +368,9 @@ function kitchenDetails() {
               </svg>
             </button>
           </div>
-
+          <label className="flex justify-center pb-10 text-xl  text-gray-600 mr-8">
+              {kitchenData.details}
+            </label>
           <div className="">
             {kitchenData.items.map((item, index) => (
 

@@ -18,11 +18,13 @@ function kitchenDetails() {
     members: [],
     items: [
       {
-        name: "Oranges",
-        quantity: 3,
-        owner: "Lynn",
-        expires: "4/26/2023",
-        itemId: 132,
+        itemId: 21,
+        kitchenId: 26,
+        version: 0,
+        name: "Apples",
+        count: 2,
+        details: "Testing",
+        expirationDate: "2023-04-27"
       },
     ],
   });
@@ -111,8 +113,10 @@ function kitchenDetails() {
 
       // get all item data and store in array
       let items = [];
-      for (let i = 0; i < itemIds.length(); i++) {
-        const item = await fetch(`http://localhost:8080/items/${itemIds[i]}`, {
+      for (let i = 0; i < itemIds.length; i++) {
+        const item = await fetch(`http://localhost:8080/items/${itemIds[i].itemId}`, {
+        //credentials should not be included... keep this in mind  
+        credentials: "include",
           method: "GET",
           headers: {
             "Content-Type": "application/json",
@@ -159,13 +163,18 @@ function kitchenDetails() {
           alert("Error fetching item");
         });
 
+        console.log("pre load ln 166");
+        console.log(name);
+        console.log(member);
+        console.log(items);
+
       // set kitchen data
       // first see what these return and then set the state
-      // setKitchenData({
-      //     name: name,
-      //     members: member,
-      //     items: items,
-      // });
+      setKitchenData({
+          name: name.name,
+          members: member,
+          items: items,
+      });
     }
     if (id) {
       fetchData();
@@ -298,14 +307,13 @@ function kitchenDetails() {
               />
             </svg>
           </div>
-
           <div className="">
             {kitchenData.items.map((item) => (
               <Items
                 name={item.name}
-                quantity={item.quantity}
-                owner={item.owner}
-                expires={item.expires}
+                quantity={item.count}
+                owner={item.details}
+                expires={item.expirationDate}
                 itemId={item.itemId}
                 key={item.itemId}
               />
@@ -364,11 +372,11 @@ function kitchenDetails() {
 
                 <EditableItem
                   name={item.name}
-                  quantity={item.quantity}
-                  owner={item.owner}
-                  expires={item.expires}
+                  quantity={item.count}
+                  owner={item.details}
+                  expires={item.expirationDate}
                   itemId={item.itemId}
-                  key={item.itemId} />
+                  key={item.itemId}/>
               </>
             ))}
           </div>

@@ -106,7 +106,7 @@ function kitchenDetails() {
 
       // get kitchen name and description
 
-      const name = await fetch(`http://localhost:8080/kitechens/${id}`, {
+      const name = await fetch(`http://localhost:8080/kitchens/${id}`, {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -118,7 +118,7 @@ function kitchenDetails() {
             alert(data.error);
             return;
           } else {
-            console.log("name: " + data);
+            console.log("name: " + data.name);
             return data;
           }
         })
@@ -135,11 +135,19 @@ function kitchenDetails() {
       //     items: items,
       // });
     }
-    fetchData();
+    if(id){
+      
+      fetchData();
+
+    } else {
+
+       return <div>Loading...</div>;
+
+    }
+    
   }, []);
 
-//be able to share with users that are registred
-//not tested yet
+
 const shareHandler = async (data) => {
   //const router = useRouter();
   //const { kitchenId } = router.query;
@@ -157,7 +165,7 @@ const shareHandler = async (data) => {
     .catch((error) => console.error(error));
 };
 
-//currently getting 403
+
 const shareWithMembers = async (event) => {
   
   event.preventDefault();

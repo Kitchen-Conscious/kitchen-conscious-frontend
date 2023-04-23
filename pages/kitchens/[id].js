@@ -136,32 +136,34 @@ function kitchenDetails() {
 
       // get all item data and store in array
       let items = [];
-      for (let i = 0; i < itemIds.length; i++) {
-        const item = await fetch(
-          `http://localhost:8080/items/${itemIds[i].itemId}`,
-          {
-            //credentials should not be included... keep this in mind
-            credentials: "include",
-            method: "GET",
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        )
-          .then((response) => response.json())
-          .then((data) => {
-            if (data.error) {
-              alert(data.error);
-              return [];
-            } else {
-              console.log("item: " + data);
-              items.push(data);
+      if (itemIds !== undefined) {
+        for (let i = 0; i < itemIds.length; i++) {
+          const item = await fetch(
+            `http://localhost:8080/items/${itemIds[i].itemId}`,
+            {
+              //credentials should not be included... keep this in mind
+              credentials: "include",
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+              },
             }
-          })
-          .catch((error) => {
-            console.error(error);
-            alert("Error fetching item");
-          });
+          )
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.error) {
+                alert(data.error);
+                return [];
+              } else {
+                console.log("item: " + data);
+                items.push(data);
+              }
+            })
+            .catch((error) => {
+              console.error(error);
+              alert("Error fetching item");
+            });
+        }
       }
       // check to see items array is correct
       console.log("items: " + items);

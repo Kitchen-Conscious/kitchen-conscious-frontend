@@ -4,10 +4,34 @@ import Image from "next/image";
 import MyContext from "./myContext";
 import { useContext } from "react";
 
-function EditableItem() {
+function EditableItem(props) {
+
+  const handleDelete= async (event) => {
+    event.preventDefault();
+
+    const response = await fetch(
+      `http://localhost:8080/items/${20}`,
+      {
+        credentials: "include",
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(props.itemId),
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   return (
     <div className="flex flex-row pb-10">
-      <button className="ml-6">
+      <button className="ml-6" onClick={handleDelete}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fill="none"
@@ -25,22 +49,22 @@ function EditableItem() {
       </button>
       <div className="flex flex-row w-full l-44 border-l-8  border-l-green-600 solid shadow-black-lg mx-10 cursor-pointer bg-neutral-100 text-black  py-2 rounded-xl px:60">
         <div>
-          <h1 className="px-10 pt-2 text-3xl">Oranges</h1>
-
-          <div className="flex flex-row">
-            <h2 className="px-10 pt-10 ">
-              <b>ID#:</b>132
+        <h1 className="px-10 pt-2 text-3xl">{props.name}</h1>
+         
+          <div className="flex flex-row mt-3 px-60 justify-center gap-32 text-lg">
+            <h2 className=" ">
+              <b>ID#: </b>{props.itemId}
             </h2>
-            <h2 className="px-20 pt-10 ">
-              <b>Owner:</b>Lynn
+            <h2 className="">
+              <b>Owner: </b>{props.owner}
             </h2>
-            <h2 className="px-20 pt-10 ">
-              <b>Expires:</b>4/26/2023
+            <h2 className="">
+              <b>Expires: </b>{props.expires}
             </h2>
           </div>
-        </div>
-        <div className=" w-24 rounded-xl l-44 center pr-1 bg-white">
-          <h1 className="pt-2 text-center text-5xl">3</h1>
+          </div>
+          <div className=" w-24 rounded-xl l-44 center pr-1 bg-white mr-6">
+          <h1 className="pt-2 text-center text-5xl">{props.quantity}</h1>
           <h2 className="text-center pt-3 ">left</h2>
         </div>
       </div>

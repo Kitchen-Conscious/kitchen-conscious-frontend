@@ -5,6 +5,7 @@ import MyContext from "@/src/myContext";
 import NavBar from "@/src/NavBar";
 import Items from "@/src/Items";
 import { Modal, Button } from "react-bootstrap";
+import EditableItem from '@/src/EditableItem';
 
 
 function kitchenDetails() {
@@ -361,7 +362,7 @@ function kitchenDetails() {
 
               <>
 
-                <Items
+                <EditableItem
                   name={item.name}
                   quantity={item.quantity}
                   owner={item.owner}
@@ -452,7 +453,7 @@ function kitchenDetails() {
                             for="detail"
                             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                           >
-                            Details
+                            Sharing Details 
                           </label>
                           <input
                             type="text"

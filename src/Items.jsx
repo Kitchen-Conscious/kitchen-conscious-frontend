@@ -24,7 +24,7 @@ function Items(props) {
           </div>
         </div>
         <div className=" w-24 rounded-xl l-44 center pr-1 bg-white mr-6">
-          <h1 className="pt-2 text-center text-5xl">3</h1>
+          <h1 className="pt-2 text-center text-5xl">{props.quantity}</h1>
           <h2 className="text-center pt-3 ">left</h2>
         </div>
       </div>

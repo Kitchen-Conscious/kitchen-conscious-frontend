@@ -219,8 +219,46 @@ function kitchenDetails() {
   }
 
   const [show, setShow] = useState(false);
-  const handleClose = () => setShow(false);
+  //const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const handleChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setItemInputs((values) => ({ ...values, [name]: value }));
+  };
+
+  const [itemInputs, setItemInputs] = useState({
+    name: "",
+    count: "",
+    detail: "",
+    expirationDate: "",
+  });
+
+  const handleClose = async (event) => {
+    event.preventDefault();
+    
+    setShow(false);
+
+    const response = await fetch(
+      `http://localhost:8080/kitchens/${id}/items`,
+      {
+        credentials: "include",
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(itemInputs),
+      }
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   if (userName == "" || userName == null) {
     // Display the kitchens view page
@@ -382,57 +420,61 @@ function kitchenDetails() {
                             for="name"
                             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                           >
-                            Your Name
+                            Item Name
                           </label>
                           <input
                             type="text"
                             name="name"
                             id="name"
+                            onChange={handleChange}
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                             required
                           />
                         </div>
                         <div>
                           <label
-                            for="item"
+                            for="count"
                             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                           >
-                            Item
+                            Item Count
                           </label>
                           <input
-                            type="item"
-                            name="item"
-                            id="item"
+                            type="number"
+                            name="count"
+                            id="count"
+                            onChange={handleChange}
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                             required
                           />
                         </div>
                         <div>
                           <label
-                            for="quantity"
+                            for="detail"
                             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                           >
-                            Expiration Date
+                            Details
                           </label>
                           <input
                             type="text"
-                            name="quantity"
-                            id="quantity"
+                            name="detail"
+                            id="detail"
+                            onChange={handleChange}
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                             required
                           />
                         </div>
                         <div>
                           <label
-                            for="expiration"
+                            for="expirationDate"
                             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                           >
                             Expiration Date
                           </label>
                           <input
                             type="date"
-                            name="expiration"
-                            id="expiration"
+                            name="expirationDate"
+                            id="expirationDate"
+                            onChange={handleChange}
                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-green-500 focus:border-green-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                             required
                           />

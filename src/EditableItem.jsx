@@ -5,8 +5,9 @@ import MyContext from "./myContext";
 import { useContext } from "react";
 
 function EditableItem(props) {
+  const { itemUpdated, setItemUpdated } = useContext(MyContext);
 
-  const handleDelete= async (event) => {
+  const handleDelete = async (event) => {
     event.preventDefault();
 
     const response = await fetch(
@@ -27,6 +28,7 @@ function EditableItem(props) {
       .catch((error) => {
         console.error(error);
       });
+    setItemUpdated(!itemUpdated);
   };
 
   return (
@@ -49,21 +51,24 @@ function EditableItem(props) {
       </button>
       <div className="flex flex-row w-full l-44 border-l-8  border-l-green-600 solid shadow-black-lg mx-10 cursor-pointer bg-neutral-100 text-black  py-2 rounded-xl px:60">
         <div>
-        <h1 className="px-10 pt-2 text-3xl">{props.name}</h1>
-         
+          <h1 className="px-10 pt-2 text-3xl">{props.name}</h1>
+
           <div className="flex flex-row mt-3 px-60 justify-center gap-32 text-lg">
             <h2 className=" ">
-              <b>ID#: </b>{props.itemId}
+              <b>ID#: </b>
+              {props.itemId}
             </h2>
             <h2 className="">
-              <b>Owner: </b>{props.owner}
+              <b>Owner: </b>
+              {props.owner}
             </h2>
             <h2 className="">
-              <b>Expires: </b>{props.expires}
+              <b>Expires: </b>
+              {props.expires}
             </h2>
           </div>
-          </div>
-          <div className=" w-24 rounded-xl l-44 center pr-1 bg-white mr-6">
+        </div>
+        <div className=" w-24 rounded-xl l-44 center pr-1 bg-white mr-6">
           <h1 className="pt-2 text-center text-5xl">{props.quantity}</h1>
           <h2 className="text-center pt-3 ">left</h2>
         </div>

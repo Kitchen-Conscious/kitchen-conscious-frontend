@@ -4,6 +4,7 @@ const MyContext = createContext();
 
 export const MyContextProvider = ({ children }) => {
   const [userName, setUserName] = useState("");
+  const [itemUpdated, setItemUpdated] = useState(false);
 
   useEffect(() => {
     // Retrieve the username from local storage when the component mounts
@@ -20,7 +21,7 @@ export const MyContextProvider = ({ children }) => {
   };
 
   return (
-    <MyContext.Provider value={{ userName, updateUserName }}>
+    <MyContext.Provider value={{ userName, updateUserName, itemUpdated, setItemUpdated }}>
       {children}
     </MyContext.Provider>
   );

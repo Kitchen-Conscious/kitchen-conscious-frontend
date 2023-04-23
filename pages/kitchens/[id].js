@@ -1,37 +1,35 @@
-import React from 'react'
+import React from "react";
 import { useRouter } from "next/router";
 import { useContext, useEffect, useState } from "react";
 import MyContext from "@/src/myContext";
 import NavBar from "@/src/NavBar";
 import Items from "@/src/Items";
 import { Modal, Button } from "react-bootstrap";
-import EditableItem from '@/src/EditableItem';
-
+import EditableItem from "@/src/EditableItem";
 
 function kitchenDetails() {
   const router = useRouter();
   const { id } = router.query;
-  const { userName } = useContext(MyContext);
+  const { userName, itemUpdated, setItemUpdated } = useContext(MyContext);
   const { isMember, setIsMember } = useState(false);
   const [kitchenData, setKitchenData] = useState({
-    name: "Kitchen 1",
-    details: "details",
+    name: "",
+    details: "",
     members: [],
     items: [
       {
-        itemId: 21,
-        kitchenId: 26,
+        itemId: 0,
+        kitchenId: 0,
         version: 0,
-        name: "Apples",
-        count: 2,
-        details: "Testing",
-        expirationDate: "2023-04-27"
+        name: "",
+        count: 0,
+        details: "",
+        expirationDate: "",
       },
     ],
   });
-
-
-  const [inputName, setInputName] = useState('');
+  const [show, setShow] = useState(false);
+  const [inputName, setInputName] = useState("");
   const handleAddButtonClick = () => {
     // const newItem = {
     //   name: "inputName",
@@ -50,11 +48,35 @@ function kitchenDetails() {
     // handleClose();
 
     setKitchenData(newItems);
-    setInputName('');
+    setInputName("");
+  };
+
+  const handleClose = async (event) => {
+    event.preventDefault();
+
+    setShow(false);
+
+    const response = await fetch(`http://localhost:8080/kitchens/${id}/items`, {
+      credentials: "include",
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(itemInputs),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    setItemUpdated(!itemUpdated);
   };
 
   useEffect(() => {
-    console.log(id);
+    console.log(router);
     async function fetchData() {
       //const res = await fetch(`http://localhost:8080/kitchens/${id}`, { credentials: "include" });
       const member = await fetch(
@@ -115,14 +137,17 @@ function kitchenDetails() {
       // get all item data and store in array
       let items = [];
       for (let i = 0; i < itemIds.length; i++) {
-        const item = await fetch(`http://localhost:8080/items/${itemIds[i].itemId}`, {
-        //credentials should not be included... keep this in mind  
-        credentials: "include",
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        })
+        const item = await fetch(
+          `http://localhost:8080/items/${itemIds[i].itemId}`,
+          {
+            //credentials should not be included... keep this in mind
+            credentials: "include",
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        )
           .then((response) => response.json())
           .then((data) => {
             if (data.error) {
@@ -164,24 +189,24 @@ function kitchenDetails() {
           alert("Error fetching item");
         });
 
-        console.log("pre load ln 166");
-        console.log(name);
-        console.log(member);
-        console.log(items);
+      console.log("pre load ln 166");
+      console.log(name);
+      console.log(member);
+      console.log(items);
 
       // set kitchen data
       // first see what these return and then set the state
       setKitchenData({
-          name: name.name,
-          details: name.details,
-          members: member,
-          items: items,
+        name: name.name,
+        details: name.details,
+        members: member,
+        items: items,
       });
     }
     if (id) {
       fetchData();
     }
-  }, []);
+  }, [router, itemUpdated]);
 
   const shareHandler = async (data) => {
     //const router = useRouter();
@@ -230,7 +255,6 @@ function kitchenDetails() {
     alert("Link Copied to Clipboard");
   }
 
-  const [show, setShow] = useState(false);
   //const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -246,31 +270,6 @@ function kitchenDetails() {
     detail: "",
     expirationDate: "",
   });
-
-  const handleClose = async (event) => {
-    event.preventDefault();
-    
-    setShow(false);
-
-    const response = await fetch(
-      `http://localhost:8080/kitchens/${id}/items`,
-      {
-        credentials: "include",
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(itemInputs),
-      }
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
 
   if (userName == "" || userName == null) {
     // Display the kitchens view page
@@ -310,8 +309,8 @@ function kitchenDetails() {
             </svg>
           </div>
           <label className="flex justify-center pb-10 text-xl  text-gray-600 mr-8">
-              {kitchenData.details}
-            </label>
+            {kitchenData.details}
+          </label>
           <div className="">
             {kitchenData.items.map((item) => (
               <Items
@@ -330,9 +329,7 @@ function kitchenDetails() {
   } else {
     // Display the kitchens edit page
     return (
-
       <div className="flex flex-col">
-
         <NavBar />
         <div classname="flex flex-row">
           <button
@@ -369,28 +366,27 @@ function kitchenDetails() {
             </button>
           </div>
           <label className="flex justify-center pb-10 text-xl  text-gray-600 mr-8">
-              {kitchenData.details}
-            </label>
+            {kitchenData.details}
+          </label>
           <div className="">
             {kitchenData.items.map((item, index) => (
-
-
               <>
-
                 <EditableItem
                   name={item.name}
                   quantity={item.count}
                   owner={item.details}
                   expires={item.expirationDate}
                   itemId={item.itemId}
-                  key={item.itemId}/>
+                  key={item.itemId}
+                />
               </>
             ))}
           </div>
 
-          <div className="flex justify-center">
+          <div className="flex justify-center align-middle">
             <Button
-              variant="primary" onClick={handleShow}
+              variant="primary"
+              onClick={handleShow}
               className="w-50 shadow-black-lg mx-10 cursor-pointer bg-green-600/95 text-white  px-4 py-2 hover:bg-green-700 rounded-xl  text-lg font-medium lg:text-xl mt-12 "
               type="button"
             >
@@ -400,11 +396,11 @@ function kitchenDetails() {
               size="lg"
               aria-labelledby="contained-modal-title-vcenter"
               centered
-              show={show} onHide={handleClose}>
-
-
+              show={show}
+              onHide={handleClose}
+            >
               <Modal.Body>
-                <div className="relative justify-center w-full max-w-md max-h-full">
+                <div className="relative justify-center w-full max-w-md max-h-full mx-auto mt-6">
                   <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
                     <Button
                       onClick={handleClose}
@@ -426,13 +422,17 @@ function kitchenDetails() {
                       </svg>
                       <span className="sr-only">Close form</span>
                     </Button>
-                    <div className="px-6 py-6 lg:px-8">
+                    <div className="px-6 py-6 lg:px-8 flex flex-col justify-center align-middle">
                       <h3 className="mb-4 text-xl font-medium text-gray-900 dark:text-white">
                         Add An Item
                       </h3>
                       <form className="space-y-6" action="#">
                         <div>
-                          <label value={inputName} onChange={(event) => setInputName(event.target.value)}
+                          <label
+                            value={inputName}
+                            onChange={(event) =>
+                              setInputName(event.target.value)
+                            }
                             for="name"
                             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                           >
@@ -468,7 +468,7 @@ function kitchenDetails() {
                             for="detail"
                             className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                           >
-                            Sharing Details 
+                            Sharing Details
                           </label>
                           <input
                             type="text"
@@ -498,7 +498,6 @@ function kitchenDetails() {
 
                         <Button
                           type="submit"
-
                           onClick={handleClose}
                           className="w-full text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
                         >
@@ -508,10 +507,8 @@ function kitchenDetails() {
                     </div>
                   </div>
                 </div>
-
               </Modal.Body>
             </Modal>
-
           </div>
         </div>
       </div>

@@ -17,6 +17,7 @@ function InviteKitchen({ name, kitchenId }) {
             headers: {
             "Content-Type": "application/json",
           },
+          body: JSON.stringify({ accept: true }),
         })
           .catch((error) => {
             console.error(error);

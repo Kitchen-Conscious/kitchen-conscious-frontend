@@ -54,7 +54,7 @@ function EditableItem(props) {
           <h1 className="px-10 pt-2 text-3xl">{props.name}</h1>
 
           <div className="flex flex-row mt-3 px-60 justify-center gap-32 text-lg">
-            <h2 className=" ">
+            <h2 className="">
               <b>ID#: </b>
               {props.itemId}
             </h2>

@@ -383,7 +383,7 @@ function kitchenDetails() {
             ))}
           </div>
 
-          <div className="flex justify-center align-middle">
+          <div className="flex justify-center align-middle padding-bottom: 10">
             <Button
               variant="primary"
               onClick={handleShow}

@@ -10,7 +10,7 @@ function EditableItem(props) {
     event.preventDefault();
 
     const response = await fetch(
-      `http://localhost:8080/items/${20}`,
+      `http://localhost:8080/items/${props.itemId}`,
       {
         credentials: "include",
         method: "DELETE",

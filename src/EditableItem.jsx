@@ -79,11 +79,11 @@ function EditableItem(props) {
           />
         </svg>
       </button>
-      <div className="flex flex-row w-full l-44 border-l-8  border-l-green-600 solid shadow-black-lg mx-10 bg-neutral-100 text-black  py-2 rounded-xl px:60">
+      <div className="flex flex-row w-full l-44 border-l-8 border-l-green-600 solid shadow-black-lg mx-10 bg-neutral-100 text-black  py-2 rounded-xl px:60">
         <div>
           <h1 className="px-10 pt-2 text-3xl">{props.name}</h1>
 
-          <div className="flex flex-row mt-3 px-60 justify-center gap-32 text-lg">
+          <div className="whitespace-nowrap ml-2 flex flex-row mt-3 px-40 gap-32 text-lg">
             <h2 className="">
               <b>ID#: </b>
               {props.itemId}
@@ -99,7 +99,7 @@ function EditableItem(props) {
           </div>
         </div>
         <div
-          className=" w-24 rounded-xl l-44 center pr-1 bg-white mr-6 cursor-pointer"
+          className="w-24 rounded-xl pr-1 bg-white mg-50 cursor-pointer"
           onClick={editItem}
         >
           <h1 className="pt-2 text-center text-5xl">{props.quantity}</h1>
